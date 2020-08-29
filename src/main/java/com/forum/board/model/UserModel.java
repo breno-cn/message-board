@@ -24,10 +24,10 @@ public class UserModel {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "userModel")
     List<Post> posts;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "userModel")
     List<Comment> comments;
 
     public UserModel() {}
