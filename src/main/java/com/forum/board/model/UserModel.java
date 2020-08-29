@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +23,9 @@ public class UserModel {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user_model")
+    List<Post> posts;
 
     public UserModel() {}
 

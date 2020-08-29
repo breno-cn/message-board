@@ -29,6 +29,10 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
+    @ManyToOne
+    @JoinColumn(name = "user_model_id")
+    private UserModel userModel;
+
     public Post() {}
 
     public Post(String title, String content) {
