@@ -22,7 +22,7 @@ public class Comment {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "users_id", nullable = false)
     private UserModel userModel;
 
     public Comment() {}
