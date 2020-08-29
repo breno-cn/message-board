@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_model")
+@Table(name = "users")
 public class UserModel {
 
     private static final int USERNAME_LENGTH = 16;
@@ -24,8 +24,11 @@ public class UserModel {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user_model")
+    @OneToMany(mappedBy = "users")
     List<Post> posts;
+
+    @OneToMany(mappedBy = "users")
+    List<Comment> comments;
 
     public UserModel() {}
 

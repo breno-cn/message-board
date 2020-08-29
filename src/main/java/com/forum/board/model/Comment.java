@@ -21,6 +21,10 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private UserModel userModel;
+
     public Comment() {}
 
     public Comment(String content) {

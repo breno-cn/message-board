@@ -30,7 +30,7 @@ public class Post {
     private List<Comment> comments;
 
     @ManyToOne
-    @JoinColumn(name = "user_model_id")
+    @JoinColumn(name = "users_id")
     private UserModel userModel;
 
     public Post() {}
