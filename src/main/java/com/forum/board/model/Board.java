@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,9 @@ public class Board {
 
     @Column(name = "name", nullable = false, unique = true, length = Board.NAME_LENGTH)
     private String name;
+
+    @OneToMany(mappedBy = "board")
+    private List<Post> posts;
 
     public Board() {}
 

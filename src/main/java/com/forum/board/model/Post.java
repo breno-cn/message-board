@@ -21,6 +21,10 @@ public class Post {
     @Column(name = "content", nullable = false, length = CONTENT_LENGTH)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     public Post() {}
 
     public Post(String title, String content) {
