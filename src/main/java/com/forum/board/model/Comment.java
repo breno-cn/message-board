@@ -17,6 +17,10 @@ public class Comment {
     @Column(nullable = false, length = COMMENT_LENGTH)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     public Comment() {}
 
     public Comment(String content) {

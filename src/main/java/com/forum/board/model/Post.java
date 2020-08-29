@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 
     public Post() {}
 
