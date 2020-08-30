@@ -3,12 +3,13 @@ package com.forum.board.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     private static final int MAX_USERNAME_LENGTH = 16;
 

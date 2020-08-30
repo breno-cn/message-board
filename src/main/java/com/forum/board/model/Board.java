@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "board")
-public class Board {
+public class Board implements Serializable {
     public static final int MAX_NAME_LENGTH = 16;
     public static final int MAX_DESCRIPTION_LENGTH = 64;
 

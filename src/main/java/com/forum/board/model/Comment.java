@@ -3,11 +3,12 @@ package com.forum.board.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
 
     private static final int MAX_COMMENT_LENGTH = 256;
 

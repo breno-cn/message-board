@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post implements Serializable {
 
     public static final int MAX_TITLE_LENGTH = 32;
     public static final int MAX_CONTENT_LENGTH = 256;
