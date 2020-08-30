@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
-    @JsonIgnore
+    @JsonManagedReference
     private User user;
 
     public Post() {}
