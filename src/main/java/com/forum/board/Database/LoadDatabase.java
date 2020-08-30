@@ -30,7 +30,7 @@ public class LoadDatabase {
             User user = new User("user 1", "email 1", "pass 1");
 
             List<Post> posts = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 23; i++) {
                 Post post = new Post(String.format("Title %d", i), String.format("Content %d", i));
                 post.setBoard(board1);
                 post.setUser(user);
