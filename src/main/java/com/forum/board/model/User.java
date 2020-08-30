@@ -6,16 +6,16 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class UserModel {
+public class User {
 
-    private static final int USERNAME_LENGTH = 16;
+    private static final int MAX_USERNAME_LENGTH = 16;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true, length = USERNAME_LENGTH)
+    @Column(name = "username", nullable = false, unique = true, length = MAX_USERNAME_LENGTH)
     private String username;
 
     @Column(name = "password", nullable = false, unique = true)
@@ -24,15 +24,15 @@ public class UserModel {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "userModel")
+    @OneToMany(mappedBy = "user")
     List<Post> posts;
 
-    @OneToMany(mappedBy = "userModel")
+    @OneToMany(mappedBy = "user")
     List<Comment> comments;
 
-    public UserModel() {}
+    public User() {}
 
-    public UserModel(String username, String password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -84,11 +84,11 @@ public class UserModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserModel userModel = (UserModel) o;
-        return id.equals(userModel.id) &&
-                username.equals(userModel.username) &&
-                password.equals(userModel.password) &&
-                email.equals(userModel.email);
+        User user = (User) o;
+        return id.equals(user.id) &&
+                username.equals(user.username) &&
+                password.equals(user.password) &&
+                email.equals(user.email);
     }
 
     @Override

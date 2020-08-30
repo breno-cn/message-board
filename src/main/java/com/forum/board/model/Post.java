@@ -8,18 +8,18 @@ import java.util.Objects;
 @Table(name = "post")
 public class Post {
 
-    public static final int TITLE_LENGTH = 32;
-    public static final int CONTENT_LENGTH = 256;
+    public static final int MAX_TITLE_LENGTH = 32;
+    public static final int MAX_CONTENT_LENGTH = 256;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = TITLE_LENGTH)
+    @Column(name = "title", nullable = false, length = MAX_TITLE_LENGTH)
     private String title;
 
-    @Column(name = "content", nullable = false, length = CONTENT_LENGTH)
+    @Column(name = "content", nullable = false, length = MAX_CONTENT_LENGTH)
     private String content;
 
     @ManyToOne
@@ -31,7 +31,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
-    private UserModel userModel;
+    private User user;
 
     public Post() {}
 

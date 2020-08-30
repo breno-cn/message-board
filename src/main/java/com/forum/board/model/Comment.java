@@ -7,14 +7,14 @@ import java.util.Objects;
 @Table(name = "comment")
 public class Comment {
 
-    private static final int COMMENT_LENGTH = 256;
+    private static final int MAX_COMMENT_LENGTH = 256;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = false, length = COMMENT_LENGTH)
+    @Column(nullable = false, length = MAX_COMMENT_LENGTH)
     private String content;
 
     @ManyToOne
@@ -23,7 +23,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
-    private UserModel userModel;
+    private User user;
 
     public Comment() {}
 

@@ -10,7 +10,7 @@ public class Board {
     public static final int NAME_LENGTH = 16;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
