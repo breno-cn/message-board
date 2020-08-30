@@ -11,9 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
-//    @Query(
-//            value = "SELECT p FROM Post p WHERE p.board.id = ?1 ORDER BY p.id",
-//            countQuery = "SELECT count(p) FROM Post p")
-    Slice<Post> findByBoardId(@Param("id") Long id, Pageable pageable);
+//    @Query(nativeQuery = true,
+//            value = "SELECT * FROM post WHERE board_id = ?1",
+//            countQuery = "SELECT count(*) FROM POST WHERE board_id = ?1"
+//    )
+    Slice<Post> findAllByBoardId(@Param("id") Long id, Pageable pageable);
 
 }

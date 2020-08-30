@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/post")
 public class PostController {
 
+    public static final int MAX_POSTS_BY_PAGE = 5;
+
     private final PostRepository postRepository;
 
     public PostController(PostRepository postRepository) {
@@ -32,8 +34,8 @@ public class PostController {
             @PathVariable(name = "boardId") Long boardId,
             @RequestParam(name = "page", defaultValue = "0") int page
     ) {
-        Pageable pageable = PageRequest.of(page, 5);
-        Slice<Post> posts = postRepository.findByBoardId(boardId, pageable);
+        Pageable pageable = PageRequest.of(page, MAX_POSTS_BY_PAGE);
+        Slice<Post> posts = postRepository.findAllByBoardId(boardId, pageable);
 
         return ResponseEntity.ok(posts);
     }

@@ -26,7 +26,7 @@ public class Post implements Serializable {
     @Column(name = "content", nullable = false, length = MAX_CONTENT_LENGTH)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "board_id")
     @JsonIgnore
     private Board board;
@@ -35,8 +35,8 @@ public class Post implements Serializable {
     @JsonIgnore
     private List<Comment> comments;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "users_id")
     @JsonManagedReference
     private User user;
 
