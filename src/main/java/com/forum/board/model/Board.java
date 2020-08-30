@@ -1,27 +1,34 @@
 package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "board")
 public class Board {
-    public static final int NAME_LENGTH = 16;
+    public static final int MAX_NAME_LENGTH = 16;
     public static final int MAX_DESCRIPTION_LENGTH = 64;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = Board.NAME_LENGTH)
+    @Column(name = "name", nullable = false, unique = true, length = MAX_NAME_LENGTH)
     private String name;
 
     @Column(name = "description", nullable = false, length = MAX_DESCRIPTION_LENGTH)
     private String description;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt;
 
     @OneToMany(mappedBy = "board")
     @JsonIgnore
@@ -56,6 +63,14 @@ public class Board {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

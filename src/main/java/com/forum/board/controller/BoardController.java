@@ -20,8 +20,7 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<Iterable<Board>> getAllBoards() {
         return ResponseEntity
-                .ok()
-                .body(boardRepository.findAll());
+                .ok(boardRepository.findAll());
     }
 
 }
