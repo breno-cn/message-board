@@ -26,6 +26,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
+    @JsonIgnore
     private Board board;
 
     @OneToMany(mappedBy = "post")
@@ -34,6 +35,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     public Post() {}
@@ -65,6 +67,22 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
