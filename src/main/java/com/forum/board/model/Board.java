@@ -10,6 +10,7 @@ import java.util.Objects;
 @Table(name = "board")
 public class Board {
     public static final int NAME_LENGTH = 16;
+    public static final int MAX_DESCRIPTION_LENGTH = 64;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +20,18 @@ public class Board {
     @Column(name = "name", nullable = false, unique = true, length = Board.NAME_LENGTH)
     private String name;
 
+    @Column(name = "description", nullable = false, length = MAX_DESCRIPTION_LENGTH)
+    private String description;
+
     @OneToMany(mappedBy = "board")
     @JsonIgnore
     private List<Post> posts;
 
     public Board() {}
 
-    public Board(String name) {
+    public Board(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
     public Long getId() {
@@ -43,6 +48,14 @@ public class Board {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
