@@ -1,5 +1,7 @@
 package com.forum.board.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class Board {
     private String name;
 
     @OneToMany(mappedBy = "board")
+    @JsonIgnore
     private List<Post> posts;
 
     public Board() {}

@@ -1,5 +1,7 @@
 package com.forum.board.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +29,7 @@ public class Post {
     private Board board;
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private List<Comment> comments;
 
     @ManyToOne
