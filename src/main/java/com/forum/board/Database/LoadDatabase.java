@@ -1,9 +1,11 @@
 package com.forum.board.Database;
 
 import com.forum.board.model.Board;
+import com.forum.board.model.Comment;
 import com.forum.board.model.Post;
 import com.forum.board.model.User;
 import com.forum.board.repository.BoardRepository;
+import com.forum.board.repository.CommentRepository;
 import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -21,7 +23,8 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(
             BoardRepository boardRepository,
             UserRepository userRepository,
-            PostRepository postRepository) {
+            PostRepository postRepository,
+            CommentRepository commentRepository) {
         return args -> {
             Board board1 = new Board("board 1", "description 1");
             Board board2 = new Board("board 2", "description 2");
@@ -37,9 +40,18 @@ public class LoadDatabase {
                 posts.add(post);
             }
 
+            List<Comment> comments = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                Comment comment = new Comment(String.format("Comment %d", i));
+                comment.setUser(user);
+                comment.setPost(posts.get(0));
+                comments.add(comment);
+            }
+
             boardRepository.saveAll(boards);
             userRepository.save(user);
             postRepository.saveAll(posts);
+            commentRepository.saveAll(comments);
         };
     }
 

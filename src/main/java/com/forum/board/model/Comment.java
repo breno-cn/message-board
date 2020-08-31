@@ -25,8 +25,8 @@ public class Comment implements Serializable {
     @JsonIgnore
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "users_id")
     private User user;
 
     public Comment() {}
@@ -49,6 +49,22 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
