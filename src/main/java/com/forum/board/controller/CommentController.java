@@ -3,6 +3,7 @@ package com.forum.board.controller;
 import com.forum.board.exception.CommentNotFoundException;
 import com.forum.board.model.Comment;
 import com.forum.board.repository.CommentRepository;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ public class CommentController {
         this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Comment> getCommentById(@PathVariable(name = "id") Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException(id));
@@ -29,7 +30,7 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping(value = "/post/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
         return ResponseEntity.ok(commentRepository.findAllByPostId(postId));
     }

@@ -6,6 +6,7 @@ import com.forum.board.repository.PostRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class PostController {
         this.postRepository = postRepository;
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> getPostById(@PathVariable(name = "id") Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
@@ -29,7 +30,7 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
-    @GetMapping("/board/{boardId}")
+    @GetMapping(value = "/board/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Slice<Post>> getPostsByBoardId(
             @PathVariable(name = "boardId") Long boardId,
             @RequestParam(name = "page", defaultValue = "0") int page

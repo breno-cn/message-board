@@ -25,13 +25,13 @@ public class User implements Serializable {
     private String username;
 
     @Column(name = "password", nullable = false, unique = true)
-    @JsonIgnore
-    @JsonProperty("password")
+//    @JsonIgnore
+    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
-    @JsonIgnore
-    @JsonProperty("email")
+//    @JsonIgnore
+    @JsonProperty(value = "email", access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
     @OneToMany(mappedBy = "user")

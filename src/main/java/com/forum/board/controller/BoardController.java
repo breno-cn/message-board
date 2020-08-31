@@ -2,6 +2,7 @@ package com.forum.board.controller;
 
 import com.forum.board.model.Board;
 import com.forum.board.repository.BoardRepository;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class BoardController {
         this.boardRepository = boardRepository;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Board>> getAllBoards() {
         return ResponseEntity
                 .ok(boardRepository.findAll());

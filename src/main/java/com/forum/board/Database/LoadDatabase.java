@@ -30,7 +30,7 @@ public class LoadDatabase {
             Board board2 = new Board("board 2", "description 2");
             List<Board> boards = Arrays.asList(board1, board2);
 
-            User user = new User("user 1", "email 1", "pass 1");
+            User user = new User("user 1", "pass 1", "email 1");
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
+    Post findPostById(Long id);
+
     Slice<Post> findAllByBoardId(@Param("id") Long id, Pageable pageable);
 
 }
