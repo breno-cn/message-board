@@ -1,6 +1,5 @@
 package com.forum.board.Database;
 
-import com.forum.board.config.WebSecurityConfig;
 import com.forum.board.model.Board;
 import com.forum.board.model.Comment;
 import com.forum.board.model.Post;
@@ -32,7 +31,7 @@ public class LoadDatabase {
             Board board2 = new Board("board 2", "description 2");
             List<Board> boards = Arrays.asList(board1, board2);
 
-            User user = new User("user 1", new BCryptPasswordEncoder().encode("123"), "email 1");
+            User user = new User("breno", new BCryptPasswordEncoder().encode("123"), "email 1");
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {

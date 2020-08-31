@@ -30,6 +30,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getProfileById(@PathVariable(name = "id") Long id) {
         User user = userRepository.findById(id)
                 .orElse(new User("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
+        log.debug("TEST: " + user);
         Map<String, Object> profile = new LinkedHashMap<>();
         profile.put("username", user.getUsername());
         profile.put("email", user.getEmail());

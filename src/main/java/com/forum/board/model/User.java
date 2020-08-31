@@ -43,6 +43,13 @@ public class User implements Serializable, UserDetails {
     @JsonIgnore
     List<Comment> comments;
 
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(
+            name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+            name = "role_id", referencedColumnName = "role_name"))
+    List<Role> roles;
+
     public User() {}
 
     public User(String username, String password, String email) {
@@ -108,6 +115,14 @@ public class User implements Serializable, UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
