@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
@@ -26,6 +28,11 @@ public class CommentController {
 
         return ResponseEntity
                 .ok(comment);
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
+        return ResponseEntity.ok(commentRepository.findAllByPostId(postId));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class Comment implements Serializable {
     @Column(nullable = false, length = MAX_COMMENT_LENGTH)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
