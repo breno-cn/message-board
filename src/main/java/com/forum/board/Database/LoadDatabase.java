@@ -1,5 +1,6 @@
 package com.forum.board.Database;
 
+import com.forum.board.config.WebSecurityConfig;
 import com.forum.board.model.Board;
 import com.forum.board.model.Comment;
 import com.forum.board.model.Post;
@@ -11,6 +12,7 @@ import com.forum.board.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +32,7 @@ public class LoadDatabase {
             Board board2 = new Board("board 2", "description 2");
             List<Board> boards = Arrays.asList(board1, board2);
 
-            User user = new User("user 1", "pass 1", "email 1");
+            User user = new User("user 1", new BCryptPasswordEncoder().encode("123"), "email 1");
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {

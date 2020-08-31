@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +24,19 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @GetMapping(value = "/profile/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getProfileById(@PathVariable(name = "id") Long id) {
+        User user = userRepository.findById(id)
+                .orElse(new User("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
+        Map<String, Object> profile = new LinkedHashMap<>();
+        profile.put("username", user.getUsername());
+        profile.put("email", user.getEmail());
+        profile.put("password", user.getPassword());
+        profile.put("id", user.getId());
+
+        return ResponseEntity.ok(profile);
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
