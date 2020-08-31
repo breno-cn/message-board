@@ -16,7 +16,7 @@ public class Role implements GrantedAuthority {
     private String roleName;
 
     @ManyToMany
-    private List<User> users;
+    private List<UserModel> userModels;
 
     public String getRoleName() {
         return roleName;

@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable, UserDetails {
+public class UserModel implements Serializable, UserDetails {
 
     private static final int MAX_USERNAME_LENGTH = 16;
 
@@ -35,11 +35,11 @@ public class User implements Serializable, UserDetails {
     @JsonProperty(value = "email", access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userModel")
     @JsonIgnore
     List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userModel")
     @JsonIgnore
     List<Comment> comments;
 
@@ -50,9 +50,9 @@ public class User implements Serializable, UserDetails {
             name = "role_id", referencedColumnName = "role_name"))
     List<Role> roles;
 
-    public User() {}
+    public UserModel() {}
 
-    public User(String username, String password, String email) {
+    public UserModel(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -139,11 +139,11 @@ public class User implements Serializable, UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id) &&
-                username.equals(user.username) &&
-                password.equals(user.password) &&
-                email.equals(user.email);
+        UserModel userModel = (UserModel) o;
+        return id.equals(userModel.id) &&
+                username.equals(userModel.username) &&
+                password.equals(userModel.password) &&
+                email.equals(userModel.email);
     }
 
     @Override

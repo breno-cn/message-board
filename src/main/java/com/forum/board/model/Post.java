@@ -38,7 +38,7 @@ public class Post implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "users_id")
     @JsonManagedReference
-    private User user;
+    private UserModel userModel;
 
     public Post() {}
 
@@ -79,12 +79,12 @@ public class Post implements Serializable {
         this.board = board;
     }
 
-    public User getUser() {
-        return user;
+    public UserModel getUser() {
+        return userModel;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     @Override

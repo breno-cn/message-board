@@ -4,7 +4,7 @@ import com.forum.board.exception.EmailExistsException;
 import com.forum.board.exception.MissingUserPropertyException;
 import com.forum.board.exception.PasswordExistsException;
 import com.forum.board.exception.UsernameExistException;
-import com.forum.board.model.User;
+import com.forum.board.model.UserModel;
 import com.forum.board.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,28 +28,28 @@ public class UserController {
 
     @GetMapping(value = "/profile/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getProfileById(@PathVariable(name = "id") Long id) {
-        User user = userRepository.findById(id)
-                .orElse(new User("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
-        log.debug("TEST: " + user);
+        UserModel userModel = userRepository.findById(id)
+                .orElse(new UserModel("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
+        log.debug("TEST: " + userModel);
         Map<String, Object> profile = new LinkedHashMap<>();
-        profile.put("username", user.getUsername());
-        profile.put("email", user.getEmail());
-        profile.put("password", user.getPassword());
-        profile.put("id", user.getId());
+        profile.put("username", userModel.getUsername());
+        profile.put("email", userModel.getEmail());
+        profile.put("password", userModel.getPassword());
+        profile.put("id", userModel.getId());
 
         return ResponseEntity.ok(profile);
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> registerUser(@RequestBody User user) throws RuntimeException {
-        log.info("Usuário: " + user);
-        if (user == null) {
+    public ResponseEntity<UserModel> registerUser(@RequestBody UserModel userModel) throws RuntimeException {
+        log.info("Usuário: " + userModel);
+        if (userModel == null) {
             throw new MissingUserPropertyException();
         }
 
-        String username = user.getUsername();
-        String email = user.getEmail();
-        String password = user.getPassword();
+        String username = userModel.getUsername();
+        String email = userModel.getEmail();
+        String password = userModel.getPassword();
 
         if (username == null || email == null || password == null) {
             log.debug("NULL!");
@@ -75,7 +75,7 @@ public class UserController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userRepository.save(user));
+                .body(userRepository.save(userModel));
     }
 
 }

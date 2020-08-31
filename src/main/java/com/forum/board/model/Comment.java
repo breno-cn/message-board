@@ -27,7 +27,7 @@ public class Comment implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "users_id")
-    private User user;
+    private UserModel userModel;
 
     public Comment() {}
 
@@ -59,12 +59,12 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-    public User getUser() {
-        return user;
+    public UserModel getUser() {
+        return userModel;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     @Override
