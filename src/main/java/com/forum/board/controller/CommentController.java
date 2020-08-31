@@ -22,12 +22,11 @@ public class CommentController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Comment> getPostById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Comment> getCommentById(@PathVariable(name = "id") Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException(id));
 
-        return ResponseEntity
-                .ok(comment);
+        return ResponseEntity.ok(comment);
     }
 
     @GetMapping("/post/{postId}")

@@ -34,7 +34,7 @@ public class LoadDatabase {
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {
-                Post post = new Post(String.format("Title %d", i), String.format("Content %d", i));
+                Post post = new Post("Title " + i, "Content " + i);
                 post.setBoard(board1);
                 post.setUser(user);
                 posts.add(post);
@@ -42,7 +42,7 @@ public class LoadDatabase {
 
             List<Comment> comments = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                Comment comment = new Comment(String.format("Comment %d", i));
+                Comment comment = new Comment("Comment " + i);
                 comment.setUser(user);
                 comment.setPost(posts.get(0));
                 comments.add(comment);
