@@ -1,6 +1,7 @@
 package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,17 +17,21 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = MAX_USERNAME_LENGTH)
+    @JsonProperty("username")
     private String username;
 
     @Column(name = "password", nullable = false, unique = true)
     @JsonIgnore
+    @JsonProperty("password")
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
     @JsonIgnore
+    @JsonProperty("email")
     private String email;
 
     @OneToMany(mappedBy = "user")
