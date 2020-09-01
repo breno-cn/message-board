@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class UserModel implements Serializable, UserDetails {
             name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
             name = "role_id", referencedColumnName = "role_name"))
-    List<Role> roles;
+    List<Role> roles = new ArrayList<>();
 
     public UserModel() {}
 
@@ -94,10 +95,10 @@ public class UserModel implements Serializable, UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
-
+//ESTAVA NULL, voltar se estiver errado
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
@@ -131,7 +132,7 @@ public class UserModel implements Serializable, UserDetails {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
+                ", email='" + email + '\'' + roles.toString() +
                 '}';
     }
 

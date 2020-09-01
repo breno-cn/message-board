@@ -28,6 +28,8 @@ public class UserController {
 
     @GetMapping(value = "/profile/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getProfileById(@PathVariable(name = "id") Long id) {
+        log.info("IN USER CONTROLLER");
+
         UserModel userModel = userRepository.findById(id)
                 .orElse(new UserModel("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
         log.debug("TEST: " + userModel);

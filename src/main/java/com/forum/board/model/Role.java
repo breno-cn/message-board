@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     public static final int ROLE_NAME_MAX_LENGTH = 32;
@@ -15,7 +15,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name", unique = true, nullable = false, length = ROLE_NAME_MAX_LENGTH)
     private String roleName;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "roles")
     private List<UserModel> userModels;
 
     public String getRoleName() {
@@ -28,6 +28,11 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        return roleName;
+    }
+
+    @Override
+    public String toString() {
         return roleName;
     }
 

@@ -1,23 +1,20 @@
 package com.forum.board.Database;
 
-import com.forum.board.model.Board;
-import com.forum.board.model.Comment;
-import com.forum.board.model.Post;
-import com.forum.board.model.UserModel;
-import com.forum.board.repository.BoardRepository;
-import com.forum.board.repository.CommentRepository;
-import com.forum.board.repository.PostRepository;
-import com.forum.board.repository.UserRepository;
+import com.forum.board.model.*;
+import com.forum.board.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class LoadDatabase {
 
     @Bean
@@ -25,13 +22,26 @@ public class LoadDatabase {
             BoardRepository boardRepository,
             UserRepository userRepository,
             PostRepository postRepository,
-            CommentRepository commentRepository) {
+            CommentRepository commentRepository,
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
         return args -> {
             Board board1 = new Board("board 1", "description 1");
             Board board2 = new Board("board 2", "description 2");
             List<Board> boards = Arrays.asList(board1, board2);
 
-            UserModel userModel = new UserModel("breno", new BCryptPasswordEncoder().encode("123"), "email 1");
+            Role user = new Role();
+            user.setRoleName("ROLE_USER");
+            Role admin = new Role();
+            admin.setRoleName("ROLE_ADMIN");
+            List<Role> roles = Arrays.asList(user, admin);
+//            List<Role> roles = Arrays.asList(admin);
+
+//            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
+            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
+            log.info("TEST LOAD DATABASE " + userModel.getPassword());
+            userRepository.save(userModel);
+            userModel.getRoles().addAll(roles);
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {
@@ -50,6 +60,7 @@ public class LoadDatabase {
             }
 
             boardRepository.saveAll(boards);
+            roleRepository.saveAll(roles);
             userRepository.save(userModel);
             postRepository.saveAll(posts);
             commentRepository.saveAll(comments);
