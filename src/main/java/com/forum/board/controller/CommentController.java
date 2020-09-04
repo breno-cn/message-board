@@ -32,7 +32,8 @@ public class CommentController {
     }
 
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityModel<Comment>> getCommentById(@PathVariable(name = "id") Long id) {
+//    public ResponseEntity<EntityModel<Comment>> getCommentById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> getCommentById(@PathVariable(name = "id") Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException(id));
 
@@ -40,7 +41,8 @@ public class CommentController {
     }
 
     @GetMapping(value = "/post/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Comment>>> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
+    public ResponseEntity<?> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
+//    public ResponseEntity<CollectionModel<EntityModel<Comment>>> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
         List<EntityModel<Comment>> comments = commentRepository.findAll()
                 .stream()
                 .map(commentAssembler::toModel)
