@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -22,8 +23,11 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/profile/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +37,7 @@ public class UserController {
         UserModel userModel = userRepository.findById(id)
                 .orElse(new UserModel("PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER"));
         log.debug("TEST: " + userModel);
+
         Map<String, Object> profile = new LinkedHashMap<>();
         profile.put("username", userModel.getUsername());
         profile.put("email", userModel.getEmail());
@@ -74,6 +79,10 @@ public class UserController {
             log.debug("PASSWORD");
             throw new PasswordExistsException(password);
         }
+
+        userModel.setPassword(passwordEncoder.encode(password));
+
+        log.info("TEST PASSWORD: " + userModel.getPassword());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

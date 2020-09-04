@@ -35,7 +35,7 @@ public class LoadDatabase {
             Role admin = new Role();
             admin.setRoleName("ROLE_ADMIN");
             List<Role> roles = Arrays.asList(user, admin);
-//            List<Role> roles = Arrays.asList(admin);
+//            List<Role> roles = Arrays.asList(user);
 
 //            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
             UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
