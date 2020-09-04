@@ -44,7 +44,6 @@ public class BoardController {
         ));
     }
 
-
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  getBoardById(@PathVariable Long id) {
         Board board = boardRepository.findById(id)
