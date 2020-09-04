@@ -33,7 +33,6 @@ public class PostController {
     }
 
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<EntityModel<Post>> getPostById(@PathVariable(name = "id") Long id) {
     public ResponseEntity<?>  getPostById(@PathVariable(name = "id") Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
@@ -42,7 +41,6 @@ public class PostController {
     }
 
     @GetMapping(value = "/board/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CollectionModel<EntityModel<Post>>> getPostsByBoardId(
     public ResponseEntity<?> getPostsByBoardId(
             @PathVariable(name = "boardId") Long boardId,
             @RequestParam(name = "page", defaultValue = "0") int page

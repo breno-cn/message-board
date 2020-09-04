@@ -32,7 +32,6 @@ public class BoardController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CollectionModel<EntityModel<Board>>> getAllBoards() {
     public ResponseEntity<?> getAllBoards() {
         List<EntityModel<Board>> boards = boardRepository.findAll()
                 .stream()
@@ -47,7 +46,6 @@ public class BoardController {
 
 
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<EntityModel<Board>> getBoardById(@PathVariable Long id) {
     public ResponseEntity<?>  getBoardById(@PathVariable Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id)); // PLACEHOLDER
