@@ -55,7 +55,7 @@ public class CommentController {
 
     @GetMapping(value = "/post/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
-        List<EntityModel<Comment>> comments = commentRepository.findAll()
+        List<EntityModel<Comment>> comments = commentRepository.findAllByPostId(postId)
                 .stream()
                 .map(commentAssembler::toModel)
                 .collect(Collectors.toList());
