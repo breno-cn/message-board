@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RoleRepository extends CrudRepository<Role, String> {}
+public interface RoleRepository extends CrudRepository<Role, String> {
+
+    List<Role> findAllByUserModelsUsername(String username);
+
+}

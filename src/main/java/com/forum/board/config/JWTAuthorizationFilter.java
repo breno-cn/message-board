@@ -6,6 +6,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.forum.board.model.Role;
 import com.forum.board.model.UserModel;
+import com.forum.board.repository.RoleRepository;
 import com.forum.board.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,11 @@ import java.util.List;
 @Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, RoleRepository roleRepository) {
         super(authenticationManager);
-        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -61,14 +62,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             if (user != null) {
 //                TODO: get user authorizations!!!!!!!
                 log.info("DEBUG AUTHORIZATION FILTER USER " + user);
-                UserModel temp = userRepository.findByUsername(user)
-                        .orElseThrow(() -> new UsernameNotFoundException(user));
+//                UserModel temp = userRepository.findByUsername(user)
+//                        .orElseThrow(() -> new UsernameNotFoundException(user));
 //                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-                log.info("DEBUG TEMP " + temp.getRoles());
-                List<Role> roles = new ArrayList<>();
-                Role role = new Role();
-                role.setRoleName("ROLE_ADMIN");
-                roles.add(role);
+                List<Role> roles = roleRepository.findAllByUserModelsUsername(user);
+//                log.info("DEBUG TEMP " + temp.getRoles());
+//                List<Role> roles = new ArrayList<>();
+//                Role role = new Role();
+//                role.setRoleName("ROLE_ADMIN");
+//                roles.add(role);
                 return new UsernamePasswordAuthenticationToken(user, null, roles);
             }
             return null;

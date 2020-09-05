@@ -15,7 +15,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name", unique = true, nullable = false, length = ROLE_NAME_MAX_LENGTH)
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private List<UserModel> userModels;
 
     public String getRoleName() {

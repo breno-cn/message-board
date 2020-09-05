@@ -1,5 +1,6 @@
 package com.forum.board.config;
 
+import com.forum.board.repository.RoleRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final UserRepository userRepository;
+   private final RoleRepository roleRepository;
 
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, UserRepository userRepository) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, RoleRepository roleRepository) {
         this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Bean
@@ -64,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userRepository))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), roleRepository))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
     }
 
