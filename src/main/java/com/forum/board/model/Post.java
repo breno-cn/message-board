@@ -2,6 +2,7 @@ package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,9 +22,11 @@ public class Post implements Serializable {
     private Long id;
 
     @Column(name = "title", nullable = false, length = MAX_TITLE_LENGTH)
+    @JsonProperty(value = "title")
     private String title;
 
     @Column(name = "content", nullable = false, length = MAX_CONTENT_LENGTH)
+    @JsonProperty(value = "content")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -37,7 +40,8 @@ public class Post implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "users_id")
-    @JsonManagedReference
+//    @JsonManagedReference
+    @JsonIgnore
     private UserModel userModel;
 
     public Post() {}
