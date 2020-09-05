@@ -2,6 +2,7 @@ package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
+@Slf4j
 public class UserModel implements Serializable, UserDetails {
 
     private static final int MAX_USERNAME_LENGTH = 16;
@@ -95,9 +97,11 @@ public class UserModel implements Serializable, UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
+
 //ESTAVA NULL, voltar se estiver errado
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+//        log.info("USER MODEL AUTHORITIES " + roles);
         return roles;
     }
 
