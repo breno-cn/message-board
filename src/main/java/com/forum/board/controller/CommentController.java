@@ -4,16 +4,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.forum.board.assembler.CommentAssembler;
 import com.forum.board.exception.CommentNotFoundException;
+import com.forum.board.exception.PostNotFoundException;
 import com.forum.board.model.Comment;
+import com.forum.board.model.Post;
+import com.forum.board.model.UserModel;
 import com.forum.board.repository.CommentRepository;
+import com.forum.board.repository.PostRepository;
+import com.forum.board.repository.UserRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +29,19 @@ public class CommentController {
 
     private final CommentRepository commentRepository;
 
+    private final PostRepository postRepository;
+
+    private final UserRepository userRepository;
+
     private final CommentAssembler commentAssembler;
 
-    public CommentController(CommentRepository commentRepository, CommentAssembler commentAssembler) {
+    public CommentController(CommentRepository commentRepository,
+                            PostRepository postRepository,
+                            UserRepository userRepository,
+                            CommentAssembler commentAssembler) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.commentAssembler = commentAssembler;
     }
 
@@ -50,6 +64,31 @@ public class CommentController {
                 comments,
                 linkTo(methodOn(CommentController.class).getCommentsByPostId(postId)).withSelfRel()
         ));
+    }
+
+    @PostMapping(
+            value = "/post/{postId}/new",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> newCommentByPostId(
+            @PathVariable(name = "postId") Long postId,
+            @RequestBody Comment comment,
+            Authentication authentication
+    ) throws RuntimeException {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException(postId));
+
+        String username = authentication.getName();
+        UserModel userModel = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        comment.setPost(post);
+        comment.setUser(userModel);
+        Comment saved = commentRepository.save(comment);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(commentAssembler.toModel(saved));
     }
 
 }
