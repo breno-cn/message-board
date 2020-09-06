@@ -2,6 +2,7 @@ package com.forum.board.assembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.forum.board.controller.BoardController;
 import com.forum.board.controller.PostController;
 import com.forum.board.model.Board;
 import org.springframework.hateoas.EntityModel;
@@ -17,7 +18,9 @@ public class BoardAssembler implements RepresentationModelAssembler<Board, Entit
                 linkTo(methodOn(PostController.class).getPostsByBoardId(board.getId(), 0))
                         .withRel("posts"),
                 linkTo(methodOn(PostController.class).newPostOnBoardId(board.getId(), null, null))
-                        .withRel("new"));
+                        .withRel("new"),
+                linkTo(methodOn(BoardController.class).getBoardById(board.getId()))
+                        .withSelfRel());
     }
 
 }

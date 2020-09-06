@@ -11,6 +11,7 @@ import com.forum.board.model.UserModel;
 import com.forum.board.repository.CommentRepository;
 import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comment")
+@Slf4j
 public class CommentController {
 
     private final CommentRepository commentRepository;
@@ -66,15 +68,13 @@ public class CommentController {
         ));
     }
 
-    @PostMapping(
-            value = "/post/{postId}/new",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> newCommentByPostId(
-            @PathVariable(name = "postId") Long postId,
-            @RequestBody Comment comment,
-            Authentication authentication
-    ) throws RuntimeException {
+    @PostMapping(value = "/post/{postId}/new",
+                produces = MediaType.APPLICATION_JSON_VALUE,
+                consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> newCommentByPostId(@PathVariable(name = "postId") Long postId,
+                                                @RequestBody Comment comment,
+                                                Authentication authentication) throws RuntimeException {
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException(postId));
 
