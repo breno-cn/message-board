@@ -26,10 +26,16 @@ public class PostController {
         return ResponseEntity.ok(postService.findPostById(id));
     }
 
-    @GetMapping(value = "/board/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/board/id/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostsByBoardId(@PathVariable(name = "boardId") Long boardId,
                                                @RequestParam(name = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(postService.findPostsByBoardId(boardId, page));
+    }
+
+    @GetMapping(value = "/board/name/{boardName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPostsByBoardName(@PathVariable(name = "boardName") String boardName,
+                                                 @RequestParam(name = "page", defaultValue = "0") int page) {
+        return ResponseEntity.ok(postService.findPostsByBoardName(boardName, page));
     }
 
     @PostMapping(value = "/board/{boardId}/new",

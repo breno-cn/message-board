@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Slice<Post> findAllByBoardId(@Param("id") Long id, Pageable pageable);
 
+    Slice<Post> findAllByBoardName(String boardName, Pageable pageable);
+
 }

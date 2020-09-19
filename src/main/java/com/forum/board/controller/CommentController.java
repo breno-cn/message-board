@@ -27,7 +27,7 @@ public class CommentController {
 
     @GetMapping(value = "/post/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
-        return  ResponseEntity.ok(commentService.findCommentsByPostId(postId));
+        return ResponseEntity.ok(commentService.findCommentsByPostId(postId));
     }
 
     @PostMapping(value = "/post/{postId}/new",

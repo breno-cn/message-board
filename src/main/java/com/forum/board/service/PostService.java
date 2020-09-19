@@ -67,6 +67,23 @@ public class PostService {
                 linkTo(methodOn(PostController.class).getPostById(boardId)).withSelfRel()
         );
     }
+    
+    public CollectionModel<EntityModel<Post>> findPostsByBoardName(String boardName, int page) {
+        Pageable pageable = PageRequest.of(page, MAX_POSTS_BY_PAGE);
+        List<EntityModel<Post>> posts = postRepository.findAllByBoardName(boardName, pageable)
+                .stream()
+                .map(postAssembler::toModel)
+                .collect(Collectors.toList());
+
+        if (posts.isEmpty()) {
+            throw new PostNotFoundException(0L);
+        }
+
+        return CollectionModel.of(
+                posts,
+                linkTo(methodOn(PostController.class).getPostsByBoardName(boardName, page)).withSelfRel()
+        );
+    }
 
     public EntityModel<Post> savePost(Long boardId, Post post, Authentication authentication) throws RuntimeException {
         Board board = boardRepository.findById(boardId)

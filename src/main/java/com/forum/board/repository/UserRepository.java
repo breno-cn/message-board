@@ -14,6 +14,8 @@ public interface UserRepository extends PagingAndSortingRepository<UserModel, Lo
     boolean existsOneByEmail(String email);
     boolean existsOneByPassword(String password);
 
+    boolean existsByUsernameOrPasswordOrEmail(String username, String password, String email);
+
 //    @Query("SELECT  u FROM UserModel u WHERE u.username = ?1")
     Optional<UserModel> findByUsername(String username);
 

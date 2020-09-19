@@ -25,8 +25,8 @@ public class LoadDatabase {
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder) {
         return args -> {
-            Board board1 = new Board("board 1", "description 1");
-            Board board2 = new Board("board 2", "description 2");
+            Board board1 = new Board("board1", "description 1");
+            Board board2 = new Board("board2", "description 2");
             List<Board> boards = Arrays.asList(board1, board2);
 
             Role user = new Role();
