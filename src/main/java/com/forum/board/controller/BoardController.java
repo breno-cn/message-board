@@ -23,7 +23,7 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findAllBoards());
     }
 
-    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  getBoardById(@PathVariable Long id) {
         return ResponseEntity.ok(boardService.findBoardById(id));
     }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
 @Slf4j
 // TODO: UserAssembler and links to user actions
 public class UserController {
@@ -20,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE,
                  consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody UserModel userModel) throws RuntimeException {
 

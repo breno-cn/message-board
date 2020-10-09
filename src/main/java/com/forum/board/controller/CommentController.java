@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/comment")
 @Slf4j
 public class CommentController {
 
@@ -20,17 +19,17 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/comments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCommentById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(commentService.findCommentById(id));
     }
 
-    @GetMapping(value = "/post/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/posts/{postId}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
         return ResponseEntity.ok(commentService.findCommentsByPostId(postId));
     }
 
-    @PostMapping(value = "/post/{postId}/new",
+    @PostMapping(value = "/post/{postId}/comments",
                 produces = MediaType.APPLICATION_JSON_VALUE,
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> newCommentByPostId(@PathVariable(name = "postId") Long postId,

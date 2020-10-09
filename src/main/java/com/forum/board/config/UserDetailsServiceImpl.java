@@ -51,7 +51,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 true,
                 true,
                 true,
-                true,
+                user.isAccountNonLocked(),
+//                true,
                 user.getAuthorities());
 //        return new User(user.getUsername(), new BCryptPasswordEncoder().encode(user.getPassword()), true, true, true, true, user.getAuthorities());
     }

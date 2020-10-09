@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/post")
 @Slf4j
 public class PostController {
 
@@ -21,24 +20,26 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  getPostById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(postService.findPostById(id));
     }
 
+    // TODO: delete this method
     @GetMapping(value = "/board/id/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostsByBoardId(@PathVariable(name = "boardId") Long boardId,
                                                @RequestParam(name = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(postService.findPostsByBoardId(boardId, page));
     }
 
-    @GetMapping(value = "/board/name/{boardName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/posts/{boardName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostsByBoardName(@PathVariable(name = "boardName") String boardName,
                                                  @RequestParam(name = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(postService.findPostsByBoardName(boardName, page));
     }
 
-    @PostMapping(value = "/board/{boardId}/new",
+    // TODO: use board name instead of id
+    @PostMapping(value = "/posts/{boardId}",
                  produces = MediaType.APPLICATION_JSON_VALUE,
                  consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Post>> newPostOnBoardId(

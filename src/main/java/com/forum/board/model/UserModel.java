@@ -34,6 +34,10 @@ public class UserModel implements Serializable, UserDetails {
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(name = "account_locked", nullable = false)
+    @JsonProperty(value = "account_locked", access = JsonProperty.Access.READ_ONLY)
+    private Boolean accountLocked;
+
     @Column(name = "email", nullable = false, unique = true)
     @JsonProperty(value = "email", access = JsonProperty.Access.WRITE_ONLY)
     private String email;
@@ -60,6 +64,8 @@ public class UserModel implements Serializable, UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
+
+        this.accountLocked = false;
     }
 
     public Long getId() {
@@ -80,9 +86,14 @@ public class UserModel implements Serializable, UserDetails {
         return true;
     }
 
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !accountLocked;
     }
 
     @Override
