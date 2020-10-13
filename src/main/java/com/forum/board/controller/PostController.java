@@ -25,30 +25,30 @@ public class PostController {
         return ResponseEntity.ok(postService.findPostById(id));
     }
 
-    // TODO: delete this method
-    @GetMapping(value = "/board/id/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostsByBoardId(@PathVariable(name = "boardId") Long boardId,
-                                               @RequestParam(name = "page", defaultValue = "0") int page) {
-        return ResponseEntity.ok(postService.findPostsByBoardId(boardId, page));
-    }
+    @GetMapping(value = "/boards/{boardName}/posts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPostsByBoardName(
+            @PathVariable(name = "boardName") String boardName,
+            @RequestParam(name = "page", defaultValue = "0") int page) {
 
-    @GetMapping(value = "/posts/{boardName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostsByBoardName(@PathVariable(name = "boardName") String boardName,
-                                                 @RequestParam(name = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(postService.findPostsByBoardName(boardName, page));
+
     }
 
     // TODO: use board name instead of id
-    @PostMapping(value = "/posts/{boardId}",
-                 produces = MediaType.APPLICATION_JSON_VALUE,
-                 consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityModel<Post>> newPostOnBoardId(
-            @PathVariable(name = "boardId") Long boardId,
+//    TODO: endpoint in authentication
+    @PostMapping(
+            value = "/boards/{boardName}/posts/new",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> savePostOnBoard(
+            @PathVariable(name = "boardName") String boardName,
             @RequestBody Post post,
             Authentication authentication) throws RuntimeException {
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(postService.savePost(boardId, post, authentication));
+                .body(postService.savePost(boardName, post, authentication));
+
     }
 
 }

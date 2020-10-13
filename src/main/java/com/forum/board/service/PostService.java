@@ -85,9 +85,11 @@ public class PostService {
         );
     }
 
-    public EntityModel<Post> savePost(Long boardId, Post post, Authentication authentication) throws RuntimeException {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new PostNotFoundException(boardId));
+    public EntityModel<Post> savePost(String boardName, Post post,
+                                      Authentication authentication) throws RuntimeException {
+        // TODO: exception for board
+        Board board = boardRepository.findByName(boardName)
+                .orElseThrow(() -> new PostNotFoundException(0L));
 
         String username = authentication.getName();
         UserModel user = userRepository.findByUsername(username)

@@ -17,13 +17,10 @@ import java.util.List;
 public class LoadDatabase {
 
     @Bean
-    CommandLineRunner initDatabase(
-            BoardRepository boardRepository,
-            UserRepository userRepository,
-            PostRepository postRepository,
-            CommentRepository commentRepository,
-            RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder) {
+    CommandLineRunner initDatabase(BoardRepository boardRepository, UserRepository userRepository,
+                                   PostRepository postRepository, CommentRepository commentRepository,
+                                   RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+
         return args -> {
             Board board1 = new Board("board1", "description 1");
             Board board2 = new Board("board2", "description 2");

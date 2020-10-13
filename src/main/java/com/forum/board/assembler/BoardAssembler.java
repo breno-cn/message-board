@@ -15,9 +15,9 @@ public class BoardAssembler implements RepresentationModelAssembler<Board, Entit
     @Override
     public EntityModel<Board> toModel(Board board) {
         return EntityModel.of(board,
-                linkTo(methodOn(PostController.class).getPostsByBoardId(board.getId(), 0))
+                linkTo(methodOn(PostController.class).getPostsByBoardName(board.getName(), 0))
                         .withRel("posts"),
-                linkTo(methodOn(PostController.class).newPostOnBoardId(board.getId(), null, null))
+                linkTo(methodOn(PostController.class).savePostOnBoard(board.getName(), null, null))
                         .withRel("new"),
                 linkTo(methodOn(BoardController.class).getBoardById(board.getId()))
                         .withSelfRel());

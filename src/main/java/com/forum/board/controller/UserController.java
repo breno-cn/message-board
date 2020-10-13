@@ -6,6 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +20,15 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationManager authenticationManager;
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder,
+                          AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE,
@@ -29,6 +41,21 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(newUser);
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(@RequestBody UserModel userModel) {
+        String username = userModel.getUsername();
+//        String password = passwordEncoder.encode(userModel.getPassword());
+        String password = userModel.getPassword();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authentication = authenticationManager.authenticate(token);
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
+
+        return ResponseEntity.ok(authentication.getPrincipal());
     }
 
 }

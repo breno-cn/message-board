@@ -4,6 +4,7 @@ import com.forum.board.repository.RoleRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -32,6 +33,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -54,20 +61,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //////////////////// ANTIGO FUNCIONA
 //        http.cors().and().csrf().disable()
-          http
+//          http
+//                .authorizeRequests()
+////                .antMatchers("/user/profile/**").hasAnyRole("ADMIN")
+////                .antMatchers("/user/profile/**").authenticated()
+////                .antMatchers("/user/profile/**").hasAuthority("ROLE_ADMIN")
+//                .antMatchers("/user/profile/**").hasRole("ADMIN")
+//                .antMatchers("/post/board/**/new").authenticated()
+//                .antMatchers("/login").permitAll()
+//                .anyRequest().permitAll()
+//                .and().formLogin();
+////                .httpBasic()
+////                  .and()
+////                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
+////                .formLogin();
+////                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+////                .addFilter(new JWTAuthorizationFilter(authenticationManager(), roleRepository))
+////                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .and()
+                .csrf()
+                .disable()
                 .authorizeRequests()
-//                .antMatchers("/user/profile/**").hasAnyRole("ADMIN")
-//                .antMatchers("/user/profile/**").authenticated()
-//                .antMatchers("/user/profile/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/user/profile/**").hasRole("ADMIN")
-                .antMatchers("/post/board/**/new").authenticated()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/boards/**/posts/new").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), roleRepository))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
     }
 
     @Bean
