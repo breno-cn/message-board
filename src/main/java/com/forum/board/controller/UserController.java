@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 @RestController
 @Slf4j
 // TODO: UserAssembler and links to user actions
-@RequestMapping(value = "/users")
 public class UserController {
 
     private final UserService userService;
@@ -46,33 +45,4 @@ public class UserController {
                 .status(HttpStatus.CREATED)
                 .body(newUser);
     }
-
-//    TODO: delete this method
-    @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody UserModel userModel) {
-        String username = userModel.getUsername();
-        String password = userModel.getPassword();
-//        String password = passwordEncoder.encode(userModel.getPassword());
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        SecurityContextHolder
-                .getContext()
-                .setAuthentication(authentication);
-
-        return ResponseEntity.ok(authentication.getPrincipal());
-    }
-
-//    TODO: delete this method
-    @PostMapping(value = "/logout")
-    public ResponseEntity<?> logout(HttpSession session) {
-        SecurityContextHolder.clearContext();
-        if (session != null) {
-            log.info("SESSION: " + session);
-            session.invalidate();
-        }
-
-        return ResponseEntity.ok("LOGOUT PLACEHOLDER");
-    }
-
 }
