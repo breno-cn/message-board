@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.http.Cookie;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -90,11 +92,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/boards/**/posts/new").authenticated()
+                .antMatchers("/posts/**/comments/new").authenticated()
                 .anyRequest().permitAll()
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .and().addFilter(new AuthenticationFilter(authenticationManager()));
+//                .logout(logout -> logout
+//                    .logoutUrl("/logout")
+//                    .addLogoutHandler((request, response, auth) -> {
+//                        for (Cookie cookie : request.getCookies()) {
+//                            String cookieName = cookie.getName();
+//                            Cookie cookieToDelete = new Cookie(cookieName, null);
+//                            cookieToDelete.setMaxAge(0);
+//                            response.addCookie(cookieToDelete);
+//                        }
+//                    }));
     }
 
     @Bean

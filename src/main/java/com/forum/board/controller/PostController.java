@@ -34,16 +34,15 @@ public class PostController {
 
     }
 
-    // TODO: use board name instead of id
 //    TODO: endpoint in authentication
-    @PostMapping(
-            value = "/boards/{boardName}/posts/new",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> savePostOnBoard(
-            @PathVariable(name = "boardName") String boardName,
-            @RequestBody Post post,
-            Authentication authentication) throws RuntimeException {
+    @PostMapping(value = "/boards/{boardName}/posts/new", produces = MediaType.APPLICATION_JSON_VALUE,
+                consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> savePostOnBoard(@PathVariable(name = "boardName") String boardName,
+                                             @RequestBody Post post,
+                                             Authentication authentication) throws RuntimeException {
+
+        log.info("DEBUG POST CONTROLLER: " + authentication.getPrincipal());
+        log.info(authentication.getName());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
