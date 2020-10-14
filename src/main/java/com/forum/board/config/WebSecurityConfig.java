@@ -72,6 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST, "/posts/**/comments").authenticated()
                     .antMatchers(HttpMethod.PUT, "/posts/**").authenticated()
                     .antMatchers(HttpMethod.PUT, "/comments/**").authenticated()
+                    .antMatchers(HttpMethod.DELETE, "/posts/**").authenticated()
+                    .antMatchers(HttpMethod.DELETE, "/comments/**").authenticated()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .anyRequest().permitAll()
                 .and()
