@@ -1,6 +1,8 @@
 package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "comment")
+@Data
+@NoArgsConstructor
 public class Comment implements Serializable {
 
     private static final int MAX_COMMENT_LENGTH = 256;
@@ -42,80 +46,8 @@ public class Comment implements Serializable {
     @Column(name = "updated_at", nullable = true)
     private Date updatedAt;
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Comment() {}
-
     public Comment(String content) {
         this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public UserModel getUser() {
-        return userModel;
-    }
-
-    public void setUser(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return id.equals(comment.id) &&
-                content.equals(comment.content);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, content);
     }
 
 }

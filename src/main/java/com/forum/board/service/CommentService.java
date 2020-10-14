@@ -68,7 +68,7 @@ public class CommentService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         comment.setPost(post);
-        comment.setUser(user);
+        comment.setUserModel(user);
 
         return commentAssembler.toModel(commentRepository.save(comment));
     }

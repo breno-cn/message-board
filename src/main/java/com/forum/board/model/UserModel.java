@@ -2,6 +2,8 @@ package com.forum.board.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -116,7 +118,7 @@ public class UserModel implements Serializable, UserDetails {
 //ESTAVA NULL, voltar se estiver errado
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        log.info("USER MODEL AUTHORITIES " + roles);
+////        log.info("USER MODEL AUTHORITIES " + roles);
         return roles;
     }
 

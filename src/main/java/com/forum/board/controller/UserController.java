@@ -23,15 +23,8 @@ public class UserController {
 
     private final UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
-
-    public UserController(UserService userService, PasswordEncoder passwordEncoder,
-                          AuthenticationManager authenticationManager) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE,

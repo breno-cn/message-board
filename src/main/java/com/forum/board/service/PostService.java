@@ -96,7 +96,7 @@ public class PostService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         post.setBoard(board);
-        post.setUser(user);
+        post.setUserModel(user);
 
         return postAssembler.toModel(postRepository.save(post));
     }

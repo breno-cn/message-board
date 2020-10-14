@@ -43,14 +43,14 @@ public class LoadDatabase {
             for (int i = 0; i < 23; i++) {
                 Post post = new Post("Title " + i, "Content " + i);
                 post.setBoard(board1);
-                post.setUser(userModel);
+                post.setUserModel(userModel);
                 posts.add(post);
             }
 
             List<Comment> comments = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 Comment comment = new Comment("Comment " + i);
-                comment.setUser(userModel);
+                comment.setUserModel(userModel);
                 comment.setPost(posts.get(0));
                 comments.add(comment);
             }
