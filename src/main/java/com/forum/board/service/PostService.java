@@ -110,7 +110,11 @@ public class PostService {
     public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
         // TODO: forbidden exception
         String username = authentication.getName();
-        Post edit = postRepository.findByUserModelUsernameAndId(username, id)
+        UserModel user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        Long userId = user.getId();
+
+        Post edit = postRepository.findByUserModelIdAndId(userId, id)
                 .orElseThrow(() -> new PostNotFoundException(id));
         if (!edit.getId().equals(id)) {
             throw new PostNotFoundException(id);

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Optional<Post> findByUserModelUsernameAndId(String username, Long id);
+    Optional<Post> findByUserModelIdAndId(Long UserModelId, Long id);
 
     Slice<Post> findAllByBoardId(@Param("id") Long id, Pageable pageable);
 

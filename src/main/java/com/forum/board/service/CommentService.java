@@ -75,7 +75,10 @@ public class CommentService {
 
     public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
         String username = authentication.getName();
-        Comment edit = commentRepository.findByUserModelUsernameAndId(username, id)
+        UserModel user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        Long userId = user.getId();
+        Comment edit = commentRepository.findByUserModelIdAndId(userId, id)
                 .orElseThrow(() -> new CommentNotFoundException(id));
         if (!edit.getId().equals(id)) {
             throw new CommentNotFoundException(id);
