@@ -15,7 +15,12 @@ public class CommentAssembler implements RepresentationModelAssembler<Comment, E
     public EntityModel<Comment> toModel(Comment comment) {
         return EntityModel.of(
                 comment,
-                linkTo(methodOn(CommentController.class).getCommentById(comment.getId())).withSelfRel()
+                linkTo(methodOn(CommentController.class).getCommentById(comment.getId()))
+                        .withSelfRel(),
+                linkTo(methodOn(CommentController.class).editCommentById(comment.getId(), null, null))
+                    .withRel("edit"),
+                linkTo(methodOn(CommentController.class).deleteCommentById(comment.getId(), null))
+                    .withRel("delete")
         );
     }
 
