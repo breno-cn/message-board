@@ -61,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .csrf()
                     .disable()
@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST, "/boards/**/posts").authenticated()
                     .antMatchers(HttpMethod.POST, "/posts/**/comments").authenticated()
                     .antMatchers(HttpMethod.PUT, "/posts/**").authenticated()
+                    .antMatchers(HttpMethod.PUT, "/comments/**").authenticated()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .anyRequest().permitAll()
                 .and()

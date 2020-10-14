@@ -53,9 +53,19 @@ public class PostController {
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editPostById(@PathVariable(name = "id") Long id, @RequestBody Post post,
                                           Authentication authentication) {
+//        return ResponseEntity
+//                .accepted()
+//                .body(postService.editPost(id, post, authentication));
         return ResponseEntity
-                .accepted()
-                .body(postService.editPost(id, post, authentication));
+                .status(postService.editPost(id, post, authentication))
+                .build();
+    }
+
+    @DeleteMapping(value = "/posts/{id}")
+    public ResponseEntity<?> deletePostById(@PathVariable(name = "id") Long id, Authentication authentication) {
+        return ResponseEntity
+                .status(postService.deletePost(id, authentication))
+                .build();
     }
 
 }

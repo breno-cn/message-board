@@ -46,8 +46,19 @@ public class CommentController {
     public ResponseEntity<?> editCommentById(@PathVariable(name = "id") Long id, @RequestBody Comment comment,
                                              Authentication authentication) {
         return ResponseEntity
-                .accepted()
-                .body(commentService.editComment(id, comment, authentication));
+                .status(commentService.editComment(id, comment, authentication))
+                .build();
+
+//        return ResponseEntity
+//                .accepted()
+//                .body(commentService.editComment(id, comment, authentication));
+    }
+
+    @DeleteMapping(value = "/comments/{id}")
+    public ResponseEntity<?> deleteCommentById(@PathVariable(name = "id") Long id, Authentication authentication) {
+        return ResponseEntity
+                .status(commentService.deleteComment(id, authentication))
+                .build();
     }
 
 }

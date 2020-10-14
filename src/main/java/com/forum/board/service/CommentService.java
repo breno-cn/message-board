@@ -14,6 +14,7 @@ import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,8 @@ public class CommentService {
         return commentAssembler.toModel(commentRepository.save(comment));
     }
 
-    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
+//    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
+    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
         String username = authentication.getName();
         UserModel user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -89,6 +91,21 @@ public class CommentService {
             edit.setContent(content);
         }
 
-        return commentAssembler.toModel(commentRepository.save(edit));
+//        return commentAssembler.toModel(commentRepository.save(edit));
+        commentRepository.save(edit);
+        return HttpStatus.NO_CONTENT;
+    }
+
+    public HttpStatus deleteComment(Long id, Authentication authentication) {
+        String username = authentication.getName();
+        UserModel user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        Long userId = user.getId();
+
+        Comment comment = commentRepository.findByUserModelIdAndId(userId, id)
+                .orElseThrow(() -> new CommentNotFoundException(id));
+
+        commentRepository.delete(comment);
+        return HttpStatus.NO_CONTENT;
     }
 }

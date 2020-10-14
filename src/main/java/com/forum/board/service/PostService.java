@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,8 @@ public class PostService {
         return postAssembler.toModel(postRepository.save(post));
     }
 
-    public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
+//    public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
+    public HttpStatus editPost(Long id, Post post, Authentication authentication) {
         // TODO: forbidden exception
         String username = authentication.getName();
         UserModel user = userRepository.findByUsername(username)
@@ -130,6 +132,21 @@ public class PostService {
             edit.setContent(content);
         }
 
-        return postAssembler.toModel(postRepository.save(edit));
+        postRepository.save(edit);
+        return HttpStatus.NO_CONTENT;
+//        return postAssembler.toModel(postRepository.save(edit));
+    }
+
+    public HttpStatus deletePost(Long id, Authentication authentication) {
+        String username = authentication.getName();
+        UserModel user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        Long userId = user.getId();
+
+        Post post = postRepository.findByUserModelIdAndId(userId, id)
+                .orElseThrow(() -> new PostNotFoundException(id));
+
+        postRepository.delete(post);
+        return HttpStatus.NO_CONTENT;
     }
 }
