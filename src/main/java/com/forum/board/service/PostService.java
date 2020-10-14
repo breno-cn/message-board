@@ -108,16 +108,25 @@ public class PostService {
         return postAssembler.toModel(postRepository.save(post));
     }
 
+    private Post findPostByUsernameAndPostId(String username, Long postId) {
+        UserModel user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return postRepository.findByUserModelIdAndId(user.getId(), postId)
+                .orElseThrow(() -> new PostNotFoundException(postId));
+    }
+
 //    public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
     public HttpStatus editPost(Long id, Post post, Authentication authentication) {
         // TODO: forbidden exception
-        String username = authentication.getName();
-        UserModel user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-        Long userId = user.getId();
-
-        Post edit = postRepository.findByUserModelIdAndId(userId, id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+//        String username = authentication.getName();
+//        UserModel user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException(username));
+//        Long userId = user.getId();
+//
+//        Post edit = postRepository.findByUserModelIdAndId(userId, id)
+//                .orElseThrow(() -> new PostNotFoundException(id));
+        Post edit = findPostByUsernameAndPostId(authentication.getName(), id);
         if (!edit.getId().equals(id)) {
             throw new PostNotFoundException(id);
         }
@@ -138,14 +147,14 @@ public class PostService {
     }
 
     public HttpStatus deletePost(Long id, Authentication authentication) {
-        String username = authentication.getName();
-        UserModel user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-        Long userId = user.getId();
-
-        Post post = postRepository.findByUserModelIdAndId(userId, id)
-                .orElseThrow(() -> new PostNotFoundException(id));
-
+//        String username = authentication.getName();
+//        UserModel user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException(username));
+//        Long userId = user.getId();
+//
+//        Post post = postRepository.findByUserModelIdAndId(userId, id)
+//                .orElseThrow(() -> new PostNotFoundException(id));
+        Post post = findPostByUsernameAndPostId(authentication.getName(), id);
         postRepository.delete(post);
         return HttpStatus.NO_CONTENT;
     }

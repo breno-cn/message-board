@@ -74,14 +74,23 @@ public class CommentService {
         return commentAssembler.toModel(commentRepository.save(comment));
     }
 
-//    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
-    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
-        String username = authentication.getName();
+    public Comment findCommentByUsernameAndCommentId(String username, Long commentId) {
         UserModel user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
-        Long userId = user.getId();
-        Comment edit = commentRepository.findByUserModelIdAndId(userId, id)
-                .orElseThrow(() -> new CommentNotFoundException(id));
+
+        return commentRepository.findByUserModelIdAndId(user.getId(), commentId)
+                .orElseThrow(() -> new CommentNotFoundException(commentId));
+    }
+
+//    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
+    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
+//        String username = authentication.getName();
+//        UserModel user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException(username));
+//        Long userId = user.getId();
+//        Comment edit = commentRepository.findByUserModelIdAndId(userId, id)
+//                .orElseThrow(() -> new CommentNotFoundException(id));
+        Comment edit = findCommentByUsernameAndCommentId(authentication.getName(), id);
         if (!edit.getId().equals(id)) {
             throw new CommentNotFoundException(id);
         }
@@ -97,14 +106,15 @@ public class CommentService {
     }
 
     public HttpStatus deleteComment(Long id, Authentication authentication) {
-        String username = authentication.getName();
-        UserModel user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-        Long userId = user.getId();
+//        String username = authentication.getName();
+//        UserModel user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException(username));
+//        Long userId = user.getId();
+//
+//        Comment comment = commentRepository.findByUserModelIdAndId(userId, id)
+//                .orElseThrow(() -> new CommentNotFoundException(id));
 
-        Comment comment = commentRepository.findByUserModelIdAndId(userId, id)
-                .orElseThrow(() -> new CommentNotFoundException(id));
-
+        Comment comment = findCommentByUsernameAndCommentId(authentication.getName(), id);
         commentRepository.delete(comment);
         return HttpStatus.NO_CONTENT;
     }
