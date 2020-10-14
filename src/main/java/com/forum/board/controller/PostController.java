@@ -35,7 +35,7 @@ public class PostController {
     }
 
 //    TODO: endpoint in authentication
-    @PostMapping(value = "/boards/{boardName}/posts/new", produces = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "/boards/{boardName}/posts", produces = MediaType.APPLICATION_JSON_VALUE,
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> savePostOnBoard(@PathVariable(name = "boardName") String boardName,
                                              @RequestBody Post post,

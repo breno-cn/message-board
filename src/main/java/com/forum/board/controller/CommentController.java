@@ -30,7 +30,7 @@ public class CommentController {
     }
 
     // TODO: same as post controller
-    @PostMapping(value = "/posts/{postId}/comments/new",
+    @PostMapping(value = "/posts/{postId}/comments",
                 produces = MediaType.APPLICATION_JSON_VALUE,
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> newCommentByPostId(@PathVariable(name = "postId") Long postId,

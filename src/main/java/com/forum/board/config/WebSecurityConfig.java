@@ -4,6 +4,7 @@ import com.forum.board.repository.RoleRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -85,16 +86,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 ////                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
         http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .csrf()
-                .disable()
+                    .disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/boards/**/posts/new").authenticated()
-                .antMatchers("/posts/**/comments/new").authenticated()
-                .anyRequest().permitAll()
-                .and().addFilter(new AuthenticationFilter(authenticationManager()));
+                    .antMatchers("/login").permitAll()
+                    .antMatchers(HttpMethod.POST, "/boards/**/posts").authenticated()
+                    .antMatchers(HttpMethod.POST, "/posts/**/comments").authenticated()
+                    .antMatchers("/admin").hasRole("ADMIN")
+                    .anyRequest().permitAll()
+                .and()
+                    .addFilter(new AuthenticationFilter(authenticationManager()));
+//                .and().addFilter(new AuthenticationFilter(authenticationManager())); // OLD IT WORKS
+//                      .addFilter(new AuthorizationFilter(authenticationManager(), roleRepository));
 //                .logout(logout -> logout
 //                    .logoutUrl("/logout")
 //                    .addLogoutHandler((request, response, auth) -> {
