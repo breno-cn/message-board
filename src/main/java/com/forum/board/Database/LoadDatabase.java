@@ -35,9 +35,12 @@ public class LoadDatabase {
 
 //            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
             UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
+            UserModel other = new UserModel("other", passwordEncoder.encode("12345"), "email 2");
             log.info("TEST LOAD DATABASE " + userModel.getPassword());
             userRepository.save(userModel);
+            userRepository.save(other);
             userModel.getRoles().addAll(roles);
+            other.getRoles().addAll(roles);
 
             List<Post> posts = new ArrayList<>();
             for (int i = 0; i < 23; i++) {
@@ -58,6 +61,7 @@ public class LoadDatabase {
             boardRepository.saveAll(boards);
             roleRepository.saveAll(roles);
             userRepository.save(userModel);
+            userRepository.save(other);
             postRepository.saveAll(posts);
             commentRepository.saveAll(comments);
         };

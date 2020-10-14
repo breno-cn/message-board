@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -55,10 +57,10 @@ public class Post implements Serializable {
     @Column(name = "updated_at", nullable = true)
     private Date updatedAt;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
 //    @JsonManagedReference
-    @JsonIgnore
+//    @JsonIgnore
     private UserModel userModel;
 
     public Post(String title, String content) {

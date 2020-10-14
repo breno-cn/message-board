@@ -42,7 +42,7 @@ public class UserModel implements Serializable, UserDetails {
     @JsonProperty(value = "email", access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
-    @OneToMany(mappedBy = "userModel")
+    @OneToMany(mappedBy = "userModel", fetch = FetchType.LAZY)
     @JsonIgnore
     List<Post> posts;
 

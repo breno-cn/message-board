@@ -73,4 +73,19 @@ public class CommentService {
         return commentAssembler.toModel(commentRepository.save(comment));
     }
 
+    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
+        String username = authentication.getName();
+        Comment edit = commentRepository.findByUserModelUsernameAndId(username, id)
+                .orElseThrow(() -> new CommentNotFoundException(id));
+        if (!edit.getId().equals(id)) {
+            throw new CommentNotFoundException(id);
+        }
+
+        String content = comment.getContent();
+        if (content != null && !content.isEmpty()) {
+            edit.setContent(content);
+        }
+
+        return commentAssembler.toModel(commentRepository.save(edit));
+    }
 }

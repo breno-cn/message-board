@@ -41,4 +41,13 @@ public class CommentController {
                 .body(commentService.saveComment(postId, comment, authentication));
     }
 
+    @PutMapping(value = "/comments/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+                consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editCommentById(@PathVariable(name = "id") Long id, @RequestBody Comment comment,
+                                             Authentication authentication) {
+        return ResponseEntity
+                .accepted()
+                .body(commentService.editComment(id, comment, authentication));
+    }
+
 }

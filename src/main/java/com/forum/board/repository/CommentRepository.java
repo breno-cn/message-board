@@ -6,9 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
+    Optional<Comment> findByUserModelUsernameAndId(String username, Long id);
 
     List<Comment> findAllByPostId(@Param("postId") Long postId);
 

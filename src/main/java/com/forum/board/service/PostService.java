@@ -11,6 +11,7 @@ import com.forum.board.model.UserModel;
 import com.forum.board.repository.BoardRepository;
 import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PostService {
 
     public static final int MAX_POSTS_BY_PAGE = 5;
@@ -68,8 +70,12 @@ public class PostService {
         );
     }
     
-    public CollectionModel<EntityModel<Post>> findPostsByBoardName(String boardName, int page) {
-        Pageable pageable = PageRequest.of(page, MAX_POSTS_BY_PAGE);
+    public CollectionModel<EntityModel<Post>> findPostsByBoardName(String boardName, int page, int size) {
+        if (size < 0 || size > MAX_POSTS_BY_PAGE) {
+            size = MAX_POSTS_BY_PAGE;
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
         List<EntityModel<Post>> posts = postRepository.findAllByBoardName(boardName, pageable)
                 .stream()
                 .map(postAssembler::toModel)
@@ -81,7 +87,7 @@ public class PostService {
 
         return CollectionModel.of(
                 posts,
-                linkTo(methodOn(PostController.class).getPostsByBoardName(boardName, page)).withSelfRel()
+                linkTo(methodOn(PostController.class).getPostsByBoardName(boardName, page, size)).withSelfRel()
         );
     }
 
@@ -101,4 +107,25 @@ public class PostService {
         return postAssembler.toModel(postRepository.save(post));
     }
 
+    public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
+        // TODO: forbidden exception
+        String username = authentication.getName();
+        Post edit = postRepository.findByUserModelUsernameAndId(username, id)
+                .orElseThrow(() -> new PostNotFoundException(id));
+        if (!edit.getId().equals(id)) {
+            throw new PostNotFoundException(id);
+        }
+
+        String title = post.getTitle();
+        String content = post.getContent();
+
+        if (title != null && !title.isEmpty()) {
+            edit.setTitle(title);
+        }
+        if (content != null && !content.isEmpty()) {
+            edit.setContent(content);
+        }
+
+        return postAssembler.toModel(postRepository.save(edit));
+    }
 }
