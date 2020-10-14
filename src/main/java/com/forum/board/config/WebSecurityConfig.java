@@ -5,6 +5,7 @@ import com.forum.board.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,8 +14,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,6 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
     }
 
     @Override
@@ -97,7 +105,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin").hasRole("ADMIN")
                     .anyRequest().permitAll()
                 .and()
-                    .addFilter(new AuthenticationFilter(authenticationManager()));
+                    .addFilter(new AuthenticationFilter(authenticationManager()))
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessHandler(logoutSuccessHandler());
+//                .logout(logout -> logout
+//                            .logoutUrl("/test_logout")
+//                            .addLogoutHandler((request, response, authentication) -> {
+//                                SecurityContextHolder
+//                                        .getContext()
+//                                        .setAuthentication(null);
+//                                request.getSession().invalidate();
+//                                response.setStatus(HttpStatus.OK.value());
+//                            }));
 //                .and().addFilter(new AuthenticationFilter(authenticationManager())); // OLD IT WORKS
 //                      .addFilter(new AuthorizationFilter(authenticationManager(), roleRepository));
 //                .logout(logout -> logout

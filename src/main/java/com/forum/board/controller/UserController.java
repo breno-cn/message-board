@@ -63,7 +63,7 @@ public class UserController {
         return ResponseEntity.ok(authentication.getPrincipal());
     }
 
-//    TODO: implement logout filter and delete this method
+//    TODO: delete this method
     @PostMapping(value = "/logout")
     public ResponseEntity<?> logout(HttpSession session) {
         SecurityContextHolder.clearContext();
