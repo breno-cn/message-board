@@ -8,14 +8,12 @@ import com.forum.board.exception.CommentNotFoundException;
 import com.forum.board.exception.PostNotFoundException;
 import com.forum.board.model.Comment;
 import com.forum.board.model.Post;
-import com.forum.board.model.Role;
 import com.forum.board.model.UserModel;
 import com.forum.board.repository.CommentRepository;
 import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -83,15 +81,7 @@ public class CommentService {
                 .orElseThrow(() -> new CommentNotFoundException(commentId));
     }
 
-//    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
-//    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
     public void editComment(Long id, Comment comment, Authentication authentication) {
-//        String username = authentication.getName();
-//        UserModel user = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException(username));
-//        Long userId = user.getId();
-//        Comment edit = commentRepository.findByUserModelIdAndId(userId, id)
-//                .orElseThrow(() -> new CommentNotFoundException(id));
         Comment edit = findCommentByUsernameAndCommentId(authentication.getName(), id);
         if (!edit.getId().equals(id)) {
             throw new CommentNotFoundException(id);
@@ -102,23 +92,11 @@ public class CommentService {
             edit.setContent(content);
         }
 
-//        return commentAssembler.toModel(commentRepository.save(edit));
         commentRepository.save(edit);
-//        return HttpStatus.NO_CONTENT;
     }
 
-//    public HttpStatus deleteComment(Long id, Authentication authentication) {
     public void deleteComment(Long id, Authentication authentication) {
-//        String username = authentication.getName();
-//        UserModel user = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException(username));
-//        Long userId = user.getId();
-//
-//        Comment comment = commentRepository.findByUserModelIdAndId(userId, id)
-//                .orElseThrow(() -> new CommentNotFoundException(id));
-
         Comment comment = findCommentByUsernameAndCommentId(authentication.getName(), id);
         commentRepository.delete(comment);
-//        return HttpStatus.NO_CONTENT;
     }
 }

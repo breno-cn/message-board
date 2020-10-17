@@ -52,14 +52,6 @@ public class CommentController {
         return ResponseEntity
                 .noContent()
                 .build();
-
-//        return ResponseEntity
-//                .status(commentService.editComment(id, comment, authentication))
-//                .build();
-
-//        return ResponseEntity
-//                .accepted()
-//                .body(commentService.editComment(id, comment, authentication));
     }
 
     @DeleteMapping(value = "/comments/{id}")
@@ -69,8 +61,6 @@ public class CommentController {
         return ResponseEntity
                 .noContent()
                 .build();
-//                .status(commentService.deleteComment(id, authentication))
-//                .build();
     }
 
 }

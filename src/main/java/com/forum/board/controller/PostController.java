@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -54,18 +53,11 @@ public class PostController {
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editPostById(@PathVariable(name = "id") Long id, @RequestBody Post post,
                                           Authentication authentication) {
-//        return ResponseEntity
-//                .accepted()
-//                .body(postService.editPost(id, post, authentication));
         postService.editPost(id, post, authentication);
 
         return ResponseEntity
                 .noContent()
                 .build();
-
-//        return ResponseEntity
-//                .status(postService.editPost(id, post, authentication))
-//                .build();
     }
 
     @DeleteMapping(value = "/posts/{id}")
@@ -75,8 +67,6 @@ public class PostController {
         return ResponseEntity
                 .noContent()
                 .build();
-//                .status(postService.deletePost(id, authentication))
-//                .build();
     }
 
 }
