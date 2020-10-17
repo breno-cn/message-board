@@ -117,7 +117,8 @@ public class PostService {
     }
 
 //    public EntityModel<Post> editPost(Long id, Post post, Authentication authentication) {
-    public HttpStatus editPost(Long id, Post post, Authentication authentication) {
+//    public HttpStatus editPost(Long id, Post post, Authentication authentication) {
+    public void editPost(Long id, Post post, Authentication authentication) {
         // TODO: forbidden exception
 //        String username = authentication.getName();
 //        UserModel user = userRepository.findByUsername(username)
@@ -142,7 +143,7 @@ public class PostService {
         }
 
         postRepository.save(edit);
-        return HttpStatus.NO_CONTENT;
+//        return HttpStatus.NO_CONTENT;
 //        return postAssembler.toModel(postRepository.save(edit));
     }
 

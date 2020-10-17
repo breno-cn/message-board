@@ -47,9 +47,15 @@ public class CommentController {
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editCommentById(@PathVariable(name = "id") Long id, @RequestBody Comment comment,
                                              Authentication authentication) {
+        commentService.editComment(id, comment, authentication);
+
         return ResponseEntity
-                .status(commentService.editComment(id, comment, authentication))
+                .noContent()
                 .build();
+
+//        return ResponseEntity
+//                .status(commentService.editComment(id, comment, authentication))
+//                .build();
 
 //        return ResponseEntity
 //                .accepted()

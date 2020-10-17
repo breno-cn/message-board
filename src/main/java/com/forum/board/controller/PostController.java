@@ -57,9 +57,15 @@ public class PostController {
 //        return ResponseEntity
 //                .accepted()
 //                .body(postService.editPost(id, post, authentication));
+        postService.editPost(id, post, authentication);
+
         return ResponseEntity
-                .status(postService.editPost(id, post, authentication))
+                .noContent()
                 .build();
+
+//        return ResponseEntity
+//                .status(postService.editPost(id, post, authentication))
+//                .build();
     }
 
     @DeleteMapping(value = "/posts/{id}")

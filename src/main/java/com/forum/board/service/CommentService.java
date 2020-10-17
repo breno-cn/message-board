@@ -84,7 +84,8 @@ public class CommentService {
     }
 
 //    public EntityModel<Comment> editComment(Long id, Comment comment, Authentication authentication) {
-    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
+//    public HttpStatus editComment(Long id, Comment comment, Authentication authentication) {
+    public void editComment(Long id, Comment comment, Authentication authentication) {
 //        String username = authentication.getName();
 //        UserModel user = userRepository.findByUsername(username)
 //                .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -103,7 +104,7 @@ public class CommentService {
 
 //        return commentAssembler.toModel(commentRepository.save(edit));
         commentRepository.save(edit);
-        return HttpStatus.NO_CONTENT;
+//        return HttpStatus.NO_CONTENT;
     }
 
 //    public HttpStatus deleteComment(Long id, Authentication authentication) {
