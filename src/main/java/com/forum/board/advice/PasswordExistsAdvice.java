@@ -6,14 +6,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class PasswordExistsAdvice {
 
     @ExceptionHandler(PasswordExistsException.class)
-    public ResponseEntity<String> passwordExistsHandler(PasswordExistsException e) {
+    public ResponseEntity<Map<String, Object>> passwordExistsHandler(PasswordExistsException e) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("message", e.getMessage());
+
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(e.getMessage());
+                .body(error);
     }
+
+//    public ResponseEntity<String> passwordExistsHandler(PasswordExistsException e) {
+//        return ResponseEntity
+//                .status(HttpStatus.CONFLICT)
+//                .body(e.getMessage());
+//    }
 
 }

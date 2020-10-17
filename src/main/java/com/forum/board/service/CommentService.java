@@ -8,6 +8,7 @@ import com.forum.board.exception.CommentNotFoundException;
 import com.forum.board.exception.PostNotFoundException;
 import com.forum.board.model.Comment;
 import com.forum.board.model.Post;
+import com.forum.board.model.Role;
 import com.forum.board.model.UserModel;
 import com.forum.board.repository.CommentRepository;
 import com.forum.board.repository.PostRepository;
@@ -105,7 +106,8 @@ public class CommentService {
         return HttpStatus.NO_CONTENT;
     }
 
-    public HttpStatus deleteComment(Long id, Authentication authentication) {
+//    public HttpStatus deleteComment(Long id, Authentication authentication) {
+    public void deleteComment(Long id, Authentication authentication) {
 //        String username = authentication.getName();
 //        UserModel user = userRepository.findByUsername(username)
 //                .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -116,6 +118,6 @@ public class CommentService {
 
         Comment comment = findCommentByUsernameAndCommentId(authentication.getName(), id);
         commentRepository.delete(comment);
-        return HttpStatus.NO_CONTENT;
+//        return HttpStatus.NO_CONTENT;
     }
 }

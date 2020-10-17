@@ -146,7 +146,8 @@ public class PostService {
 //        return postAssembler.toModel(postRepository.save(edit));
     }
 
-    public HttpStatus deletePost(Long id, Authentication authentication) {
+//    public HttpStatus deletePost(Long id, Authentication authentication) {
+    public void deletePost(Long id, Authentication authentication) {
 //        String username = authentication.getName();
 //        UserModel user = userRepository.findByUsername(username)
 //                .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -156,6 +157,6 @@ public class PostService {
 //                .orElseThrow(() -> new PostNotFoundException(id));
         Post post = findPostByUsernameAndPostId(authentication.getName(), id);
         postRepository.delete(post);
-        return HttpStatus.NO_CONTENT;
+//        return HttpStatus.NO_CONTENT;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
 @Slf4j
@@ -37,7 +38,7 @@ public class PostController {
     @PostMapping(value = "/boards/{boardName}/posts", produces = MediaType.APPLICATION_JSON_VALUE,
                  consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> savePostOnBoard(@PathVariable(name = "boardName") String boardName,
-                                             @RequestBody Post post,
+                                             @Valid @RequestBody Post post,
                                              Authentication authentication) throws RuntimeException {
 
         log.info("DEBUG POST CONTROLLER: " + authentication.getPrincipal());
@@ -63,9 +64,13 @@ public class PostController {
 
     @DeleteMapping(value = "/posts/{id}")
     public ResponseEntity<?> deletePostById(@PathVariable(name = "id") Long id, Authentication authentication) {
+        postService.deletePost(id, authentication);
+
         return ResponseEntity
-                .status(postService.deletePost(id, authentication))
+                .noContent()
                 .build();
+//                .status(postService.deletePost(id, authentication))
+//                .build();
     }
 
 }

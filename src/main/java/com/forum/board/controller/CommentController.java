@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @Slf4j
 public class CommentController {
@@ -34,7 +36,7 @@ public class CommentController {
                 produces = MediaType.APPLICATION_JSON_VALUE,
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> newCommentByPostId(@PathVariable(name = "postId") Long postId,
-                                                @RequestBody Comment comment,
+                                                @Valid @RequestBody Comment comment,
                                                 Authentication authentication) throws RuntimeException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -56,9 +58,13 @@ public class CommentController {
 
     @DeleteMapping(value = "/comments/{id}")
     public ResponseEntity<?> deleteCommentById(@PathVariable(name = "id") Long id, Authentication authentication) {
+        commentService.deleteComment(id, authentication);
+
         return ResponseEntity
-                .status(commentService.deleteComment(id, authentication))
+                .noContent()
                 .build();
+//                .status(commentService.deleteComment(id, authentication))
+//                .build();
     }
 
 }

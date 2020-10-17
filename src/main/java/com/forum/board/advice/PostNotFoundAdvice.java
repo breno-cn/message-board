@@ -6,14 +6,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class PostNotFoundAdvice {
 
-    @ExceptionHandler(PostNotFoundException.class)
-    ResponseEntity<String> postNotFoundHandler(PostNotFoundException e) {
+    @ExceptionHandler(PostNotFoundException.class)final
+    ResponseEntity<Map<String, Object>> postNotFoundHandler(PostNotFoundException e) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("message", e.getMessage());
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .body(error);
     }
+
+
+//    ResponseEntity<String> postNotFoundHandler(PostNotFoundException e) {
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(e.getMessage());
+//    }
 
 }

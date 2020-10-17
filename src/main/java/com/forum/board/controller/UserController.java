@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
 @Slf4j
@@ -29,7 +30,7 @@ public class UserController {
 
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE,
                  consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerUser(@RequestBody UserModel userModel) throws RuntimeException {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserModel userModel) throws RuntimeException {
 
         // TODO: add roles in new user
 

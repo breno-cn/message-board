@@ -6,14 +6,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class CommentNotFoundAdvice {
 
     @ExceptionHandler(CommentNotFoundException.class)
-    public ResponseEntity<String> CommentNotFoundHandler(CommentNotFoundException e) {
+    public ResponseEntity<Map<String, Object>> CommentNotFoundHandler(CommentNotFoundException e) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("message", e.getMessage());
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .body(error);
+
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(e.getMessage());
     }
 
 }

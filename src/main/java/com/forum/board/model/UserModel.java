@@ -10,6 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.*;
 
@@ -27,10 +29,12 @@ public class UserModel implements Serializable, UserDetails {
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = MAX_USERNAME_LENGTH)
+    @NotBlank(message = "username is mandatory")
     @JsonProperty("username")
     private String username;
 
     @Column(name = "password", nullable = false, unique = true)
+    @NotBlank(message = "must provide a password")
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -39,6 +43,7 @@ public class UserModel implements Serializable, UserDetails {
     private Boolean accountLocked;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "must provide a valid email")
     @JsonProperty(value = "email", access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
