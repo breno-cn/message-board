@@ -10,8 +10,8 @@ import java.util.Map;
 public class InvalidArgumentsExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException e) {
-        Map<String, Object> errors = new LinkedHashMap<>();
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException e) {
+        Map<String, String> errors = new LinkedHashMap<>();
 
         e.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();

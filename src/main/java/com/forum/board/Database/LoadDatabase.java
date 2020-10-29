@@ -34,8 +34,8 @@ public class LoadDatabase {
 //            List<Role> roles = Arrays.asList(user);
 
 //            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
-            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "email 1");
-            UserModel other = new UserModel("other", passwordEncoder.encode("12345"), "email 2");
+            UserModel userModel = new UserModel("breno", passwordEncoder.encode("123"), "breno.cn@hotmail.com");
+            UserModel other = new UserModel("other", passwordEncoder.encode("12345"), "other.ptc@hotmail.com");
             log.info("TEST LOAD DATABASE " + userModel.getPassword());
             userRepository.save(userModel);
             userRepository.save(other);

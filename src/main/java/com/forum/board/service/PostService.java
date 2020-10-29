@@ -81,6 +81,7 @@ public class PostService {
                 .map(postAssembler::toModel)
                 .collect(Collectors.toList());
 
+        // TODO: BoardNotFoundException
         if (posts.isEmpty()) {
             throw new PostNotFoundException(0L);
         }
@@ -93,7 +94,7 @@ public class PostService {
 
     public EntityModel<Post> savePost(String boardName, Post post,
                                       Authentication authentication) throws RuntimeException {
-        // TODO: exception for board
+        // TODO: BoardNotFoundException
         Board board = boardRepository.findByName(boardName)
                 .orElseThrow(() -> new PostNotFoundException(0L));
 
@@ -103,10 +104,13 @@ public class PostService {
 
         post.setBoard(board);
         post.setUserModel(user);
+        Post saved = postRepository.save(post);
 
-        return postAssembler.toModel(postRepository.save(post));
+        return postAssembler.toModel(saved);
+//        return postAssembler.toModel(postRepository.save(post));
     }
 
+    // TODO: UNAUTHORIZED DELETE EXCEPTION
     private Post findPostByUsernameAndPostId(String username, Long postId) {
         UserModel user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -122,16 +126,23 @@ public class PostService {
             throw new PostNotFoundException(id);
         }
 
-        String title = post.getTitle();
-        String content = post.getContent();
+//        String title = post.getTitle();
+//        String content = post.getContent();
+//
+//        if (title == null || title.isBlank() || content == null || content.isBlank()) {
+//             TODO: Bad edit exception
+//            throw new IllegalArgumentException();
+//        }
+//
+//        if (title != null && !title.isBlank()) {
+//            edit.setTitle(title);
+//        }
+//        if (content != null && !content.isBlank()) {
+//            edit.setContent(content);
+//        }
 
-        if (title != null && !title.isEmpty()) {
-            edit.setTitle(title);
-        }
-        if (content != null && !content.isEmpty()) {
-            edit.setContent(content);
-        }
-
+        edit.setTitle(post.getTitle());
+        edit.setContent(post.getContent());
         postRepository.save(edit);
     }
 

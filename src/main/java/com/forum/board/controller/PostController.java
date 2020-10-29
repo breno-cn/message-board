@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @Slf4j
@@ -37,7 +38,7 @@ public class PostController {
     @PostMapping(value = "/boards/{boardName}/posts", produces = MediaType.APPLICATION_JSON_VALUE,
                  consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> savePostOnBoard(@PathVariable(name = "boardName") String boardName,
-                                             @Valid @RequestBody Post post,
+                                             @NotNull @Valid @RequestBody Post post,
                                              Authentication authentication) throws RuntimeException {
 
         log.info("DEBUG POST CONTROLLER: " + authentication.getPrincipal());
@@ -49,9 +50,8 @@ public class PostController {
 
     }
 
-    @PutMapping(value = "/posts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> editPostById(@PathVariable(name = "id") Long id, @RequestBody Post post,
+    @PutMapping(value = "/posts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editPostById(@PathVariable(name = "id") Long id, @NotNull @Valid @RequestBody Post post,
                                           Authentication authentication) {
         postService.editPost(id, post, authentication);
 

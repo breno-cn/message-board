@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @Slf4j
@@ -45,8 +46,9 @@ public class CommentController {
 
     @PutMapping(value = "/comments/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
                 consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> editCommentById(@PathVariable(name = "id") Long id, @RequestBody Comment comment,
-                                             Authentication authentication) {
+    public ResponseEntity<?> editCommentById(
+            @PathVariable(name = "id") Long id, @NotNull @Valid @RequestBody Comment comment,
+            Authentication authentication) {
         commentService.editComment(id, comment, authentication);
 
         return ResponseEntity

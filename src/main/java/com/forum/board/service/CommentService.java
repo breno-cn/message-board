@@ -12,9 +12,11 @@ import com.forum.board.model.UserModel;
 import com.forum.board.repository.CommentRepository;
 import com.forum.board.repository.PostRepository;
 import com.forum.board.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -70,9 +73,12 @@ public class CommentService {
         comment.setPost(post);
         comment.setUserModel(user);
 
-        return commentAssembler.toModel(commentRepository.save(comment));
+        Comment saved = commentRepository.save(comment);
+        return commentAssembler.toModel(saved);
+//        return commentAssembler.toModel(commentRepository.save(comment));
     }
 
+    // TODO: UNAUTHORIZED DELETE EXCEPTION
     public Comment findCommentByUsernameAndCommentId(String username, Long commentId) {
         UserModel user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -87,15 +93,29 @@ public class CommentService {
             throw new CommentNotFoundException(id);
         }
 
-        String content = comment.getContent();
-        if (content != null && !content.isEmpty()) {
-            edit.setContent(content);
-        }
-
+//        String content = comment.getContent();
+//        if (content != null && !content.isEmpty()) {
+//            edit.setContent(content);
+//        }
+//
+        edit.setContent(comment.getContent());
         commentRepository.save(edit);
     }
 
     public void deleteComment(Long id, Authentication authentication) {
+//        authentication.getAuthorities().forEach(authority -> {
+//            log.info("DEBUG DELETE COMMENT " + authority.getAuthority());
+//            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+//                log.info("DEBUG DELETE COMMENT DELETE");
+//                Comment comment = commentRepository.findById(id)
+//                        .orElseThrow(() -> new CommentNotFoundException(id));
+//
+//                commentRepository.delete(comment);
+//
+//                return;
+//            }
+//        });
+
         Comment comment = findCommentByUsernameAndCommentId(authentication.getName(), id);
         commentRepository.delete(comment);
     }

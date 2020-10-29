@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,7 +30,7 @@ public class Comment implements Serializable {
 
     @Column(nullable = false, length = MAX_COMMENT_LENGTH)
     @NotBlank(message = "must provide content of the comment")
-    @JsonProperty(value = "content")
+    @JsonProperty(value = "content", access = JsonProperty.Access.READ_WRITE)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -38,16 +40,21 @@ public class Comment implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "users_id")
+    @JsonProperty(value = "user", access = JsonProperty.Access.READ_ONLY)
     private UserModel userModel;
 
     @CreationTimestamp
+//    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
+    @JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
     private Date createdAt;
 
     @UpdateTimestamp
+//    @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = true)
+    @JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
     private Date updatedAt;
 
     public Comment(String content) {
